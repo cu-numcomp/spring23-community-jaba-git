@@ -45,9 +45,15 @@ class Model:
     def Normal(self,xbar=0.,sigma=1.,ytot=1.):
         self.y = ytot*self.dx*np.exp(-(self.x-xbar)*(self.x-xbar)/2./sigma/sigma)/sigma/np.sqrt(2.*np.pi)
         
-    def SimData(self, rand = 'Uniform',xbar=0.,sigma=1., noise = 1.):
+    def SimData(self, rand = 'Uniform',xbar=0.,sigma=1., noise = 1., amp_factor = 0.1):
+        # define amplitude factor
+        amp_factor = amp_factor
+        #compute amplitude of original data
+        amp = np.max(self.y) - np.min(self.y)
+        # compute noise scale factor
+        noise_scale = amp_factor * amp
         if rand == 'Poisson':
-            self.y = np.random.poisson(lam = noise, size = len(self.y)) + self.y
+            self.y = noise_scale * np.random.poisson(lam = noise, size = len(self.y)) 
             # print(self.y)
         if rand == 'Gauss':
             self.y = np.random.normal(size=npt,loc=self.y,scale=sigma)

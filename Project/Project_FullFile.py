@@ -125,6 +125,10 @@ noisy_y = M.y
 Temp = np.linspace(3000,8000,300)       #starting temp 3000K, end temp 8000K, 300 stars
 
 PolyChiSq_Arr = []
+ChebChiSq_arr = []
+LegendreChiSq_arr = []
+HermiteChiSq_arr = []
+
 
 for i in Temp:
     rand_star = Star(name = 'Randometra',dist = 250000, T = i, radius = 6.957e8)
@@ -144,11 +148,30 @@ for i in Temp:
 
     PolyChiSq_Arr.append(PolyFit(original_x, original_y, noisy_x, noisy_y, 0))
     #PolyChiSq_Arr.append = PolyFit(original_x,original_y,noisy_x, noisy_y, 0)
+    ChebChiSq_arr.append(ChebFit(original_x,original_y,noisy_x, noisy_y, 4))
+    LegendreChiSq_arr.append(LegendreFit(original_x,original_y,noisy_x, noisy_y, 2))
+    HermiteChiSq_arr.append(HermiteFit(original_x,original_y,noisy_x, noisy_y, 3))
     
 plt.figure(0)
 plt.plot(Temp,PolyChiSq_Arr)
 plt.xlabel("Temperature [K]")
-plt.ylabel("CHiSq")
+plt.ylabel("Polynomial CHiSq")
+
+plt.figure(4)
+plt.plot(Temp,ChebChiSq_arr)
+plt.xlabel("Temperature [K]")
+plt.ylabel("Chebyshev CHiSq")
+
+plt.figure(2)
+plt.plot(Temp,LegendreChiSq_arr)
+plt.xlabel("Temperature [K]")
+plt.ylabel("Legendre CHiSq")
+
+plt.figure(3)
+plt.plot(Temp,HermiteChiSq_arr)
+plt.xlabel("Temperature [K]")
+plt.ylabel("Hermite CHiSq")
+
 
 ################################################
 ## JUST BASIC PLOTS

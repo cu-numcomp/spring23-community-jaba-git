@@ -127,10 +127,12 @@ Temp = np.linspace(3000,8000,300)       #starting temp 3000K, end temp 8000K, 30
 PolyChiSq_Arr = []
 
 for i in Temp:
-    rand_star = Star(name = 'Randometra',dist = 250000, T = Temp[i], radius = 6.957e8)
+    rand_star = Star(name = 'Randometra',dist = 250000, T = i, radius = 6.957e8)
     
     M = mc.Model()
-    M.BlackbodyPhotons(rand_star[i], I, 10000)
+    # changing 'T = Temp[i]' broke this. Changed it
+    #M.BlackbodyPhotons(rand_star[i], I, 10000)
+    M.BlackbodyPhotons(rand_star, I, 10000)
     # save original model data for future use
     original_y = M.y
     original_x = M.x
@@ -140,7 +142,8 @@ for i in Temp:
     noisy_x = M.x
     noisy_y = M.y
 
-    PolyChiSq_Arr.append = PolyFit(original_x,original_y,noisy_x, noisy_y, 0)
+    PolyChiSq_Arr.append(PolyFit(original_x, original_y, noisy_x, noisy_y, 0))
+    #PolyChiSq_Arr.append = PolyFit(original_x,original_y,noisy_x, noisy_y, 0)
     
 plt.figure(0)
 plt.plot(Temp,PolyChiSq_Arr)
